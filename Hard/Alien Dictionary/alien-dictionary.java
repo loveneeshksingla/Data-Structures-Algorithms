@@ -84,39 +84,32 @@ class GFG {
 // } Driver Code Ends
 
 
-
-
 //User function Template for Java
 
 class Solution
 {
+    ArrayList<ArrayList<Integer>> adj;
+    String ansStr;
+    
     public String findOrder(String [] dict, int N, int K)
     {
-        // Write your code here
+        createGraph(dict, K);
+        ansStr = "";
+        int source = dict[0].charAt(0) - 'a';
+        boolean[] vis = new boolean[K];
+        vis[source] = true;
+        bfs(adj, source, K);
+        // System.out.print(ansStr);
+        return ansStr;
         
-        
-        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
-        
-        for(int i = 0; i < K; i++) {
-            adj.add(new ArrayList<>());
-        }
-        
-        for(int i = 0; i < N-1; i++) {
-            String s1 = dict[i];
-            String s2 = dict[i+1];
-            
-            int len = Math.min(s1.length(), s2.length());
-            
-            for(int j = 0; j < len; j++) {
-                if(s1.charAt(j) != s2.charAt(j)) {
-                    adj.get(s1.charAt(j) - 'a').add(s2.charAt(j) - 'a');
-                    break;
-                }
-            }
-        }
+
+    }
+    
+    public void bfs(ArrayList<ArrayList<Integer>> adj, int source, int K) {
         
         
         int[] inDeg = new int[K];
+
         
         for(int i = 0; i < K; i++) {
             for(int neighbour : adj.get(i)) {
@@ -132,30 +125,53 @@ class Solution
             }
         }
         
-        ArrayList<Integer> topo = new ArrayList<>();
-        
         while(!que.isEmpty()) {
-            int node = que.remove();
-            topo.add(node);
-            for(int neighbour : adj.get(node)) {
+            int curNode = que.remove();
+            ansStr = ansStr + (char)(curNode + 'a');
+            for(int neighbour : adj.get(curNode)) {
                 inDeg[neighbour]--;
-                
                 if(inDeg[neighbour] == 0) {
                     que.add(neighbour);
                 }
             }
-            
         }
         
-        String str = "";
-        
-        for(int i = 0; i < topo.size(); i++) {
-            str += (char)(topo.get(i) + (int)'a');
-        }
-        
-        return str;
         
     }
     
-    
+
+    public void createGraph(String[] dict, int K) {
+        
+        adj = new ArrayList<>();
+        for(int ind = 0; ind < K; ind++) {
+            adj.add(new ArrayList());
+        }
+        int dictLen = dict.length;
+        
+        for(int i = 1; i < dictLen; i++) {
+            String str1 = dict[i-1];
+            String str2 = dict[i];
+            int str1Len = str1.length();
+            int str2Len = str2.length();
+            int length = Math.min(str1Len, str2Len);
+            
+            for(int j = 0; j < length; j++) {
+                if(str1.charAt(j) != str2.charAt(j)) {
+                    int firstStrCharInd = str1.charAt(j) - 'a';
+                    int secondStrCharInd = str2.charAt(j) - 'a';
+                    adj.get(firstStrCharInd).add(secondStrCharInd);
+                    break;
+                }
+            }
+            
+        }
+    }
 }
+
+
+
+
+
+
+
+
