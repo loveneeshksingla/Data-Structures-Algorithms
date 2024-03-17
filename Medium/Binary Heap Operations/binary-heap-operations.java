@@ -41,7 +41,7 @@ class GfG {
 class MinHeap {
     int[] harr;
     int capacity;
-    int heap_size;
+    int heap_size,f;
     MinHeap(int cap) {
         heap_size = 0;
         capacity = cap;
@@ -55,55 +55,47 @@ class MinHeap {
     //next minimum value at first index.
     int extractMin()
     {
-        // Your code here.
         if(heap_size == 0) return -1;
-        
-        if(heap_size == 1) {
-            heap_size = 0;
-            return harr[heap_size];
-        }
-        
-        int root = harr[0];
+        int minEle = harr[0];
         harr[0] = harr[heap_size-1];
         heap_size--;
         MinHeapify(0);
-        
-        return root;
+        return minEle;
     }
 
     //Function to insert a value in Heap.
     void insertKey(int k) 
     {
         if(heap_size == capacity) return;
-        
-        heap_size++;
-        int i = heap_size - 1;
-        harr[i] = k;
-        
-        while(i > 0) {
-            int parentInd = parent(i);
-            if(harr[i] < harr[parentInd]) {
-                int temp = harr[i];
-                harr[i] = harr[parentInd];
-                harr[parentInd] = temp;
-                i = parentInd;
+        harr[heap_size] = k;
+        int parInd = parent(heap_size);
+        int curEleInd = heap_size;
+        while(parInd >= 0) {
+            if(harr[parInd] > harr[curEleInd]) {
+                swap(parInd, curEleInd);
+                curEleInd = parInd;
+                parInd = parent(parInd);
             }else {
                 break;
             }
         }
-        
-        
+        heap_size++;
+    }
+    
+    void swap(int ind1, int ind2) {
+        int temp = harr[ind1];
+        harr[ind1] = harr[ind2];
+        harr[ind2] = temp;
     }
 
     //Function to delete a key at ith index.
     void deleteKey(int i) 
     {
         // Your code here.
-        if(i >= heap_size) return;
-        
+        if(heap_size <= 0 || i >= heap_size) return;
         decreaseKey(i, Integer.MIN_VALUE);
         extractMin();
-        
+
     }
 
     //Function to change value at ith index and store that value at first index.
