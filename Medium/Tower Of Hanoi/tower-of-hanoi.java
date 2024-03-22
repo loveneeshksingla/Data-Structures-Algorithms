@@ -41,23 +41,20 @@ class Hanoi {
 
     public long toh(int N, int from, int to, int aux) {
         // Your code here
-        
         count = 0;
         solve(N, from, to, aux);
-        
         return count;
-        
     }
     
     
     public void solve(int N, int from, int to, int aux) {
-        if( N == 0 ) return;
+        
+        if(N == 0) return;
         
         solve(N-1, from, aux, to);
         count++;
-        
         System.out.println("move disk " + N + " from rod " + from + " to rod " + to);
-        
         solve(N-1, aux, to, from);
+        
     }
 }
