@@ -52,25 +52,24 @@ class Solution
         Arrays.sort(arr);
         Arrays.sort(dep);
         
-        int arrInd = 1;
-        int depInd = 0;
+        int arrI = 1;
+        int depI = 0;
         
-        int curPlatformsNum = 1;
+        int count = 1;
         
-        int maxPlatformsNum = 1;
-        
-        while(arrInd < n && depInd < n) {
-            if(arr[arrInd] <= dep[depInd]) {
-                curPlatformsNum++;
-                arrInd++;
+        while(arrI < n) {
+            
+            if(arr[arrI] <= dep[depI]) {
+                count++;
+                arrI++;
             }else {
-                curPlatformsNum--;
-                depInd++;
+                // count--;
+                arrI++;
+                depI++;
             }
-            maxPlatformsNum = Math.max(curPlatformsNum, maxPlatformsNum);
         }
         
-        return maxPlatformsNum;
+        return count;
         
     }
     
