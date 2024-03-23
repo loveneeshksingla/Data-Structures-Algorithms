@@ -28,38 +28,37 @@ class GFG
 // } Driver Code Ends
 
 
-
-
 //User function Template for Java
 
 class Solution
 {
-    public int min_operations(int []arr)
+    public int min_operations(int []nums)
     {
-        // Code here
-        int n = arr.length;
-        int[] list = new int[n];
         
-        for(int i = 0; i < n; i++) {
-            list[i] = 1;
+        
+        int numsLen = nums.length;
+        int[] sIC = new int[numsLen];
+        
+        for(int ind = 0; ind < numsLen; ind++) {
+            sIC[ind] = 1;
         }
         
-        for(int i = 1; i < n; i++) {
-            for(int j = 0; j < i; j++) {
-                if(arr[i] > arr[j] && (i - j) <= arr[i] - arr[j]) {
-                    list[i] = Math.max(list[i], 1 + list[j]);
+        sIC[0] = 1;
+        
+        int max = 1;
+        
+        for(int i =  1; i < numsLen; i++) {
+            for(int j = i-1; j >= 0; j--) {
+                if(nums[i] >= nums[j] && (i - j) <= (nums[i]- nums[j])) {
+                    sIC[i] = Math.max(sIC[i], sIC[j]+1);
+                    max = Math.max(max, sIC[i]);
                 }
             }
+            
         }
         
-        int max = Integer.MIN_VALUE;
         
-        for(int i = 0; i < n; i++) {
-            if(list[i] > max) {
-                max = list[i];
-            }
-        }
+        return numsLen - max;
         
-        return n - max;
     }
 }
