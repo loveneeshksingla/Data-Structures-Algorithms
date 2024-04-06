@@ -33,34 +33,31 @@ class GFG {
 // } Driver Code Ends
 
 
-
-
 // User function Template for Java
 
 class Solution {
     public boolean canPair(int[] nums, int k) {
         // Code here
         
-        int n = nums.length;
-        
-        if(n%2 != 0) {
-            return false;
-        }
-        
-        int numPair = 0;
+
         HashMap<Integer, Integer> map = new HashMap<>();
         
-        for(int i = 0; i < n; i++) {
+        int numsLen = nums.length;
+        
+        if(numsLen% 2 != 0) return false;
+        
+        int numPairs = 0;
+        
+        for(int ind = 0; ind < numsLen; ind++) {
             
-            int rem = nums[i] % k;
+            int rem = nums[ind] % k;
             
-            if((map.containsKey(k-rem) && map.get(k-rem) > 0)) {
-                numPair++;
-                map.put(k-rem, map.get(k-rem)-1);
+            if(map.containsKey(k - rem) && map.get(k-rem) > 0) {
+                numPairs++;
+                map.put((k-rem), map.get(k-rem)-1);
                 continue;
-            }else if(rem == 0 && map.containsKey(0) && map.get(0) > 0) 
-            {
-                numPair++;
+            }else if(rem == 0 && map.containsKey(0) && map.get(0) > 0){
+                numPairs++;
                 map.put(0, map.get(0)-1);
                 continue;
             }
@@ -69,13 +66,15 @@ class Solution {
             
         }
         
-        int totalPair = (n / 2);
-        
-        if(numPair == totalPair) {
-            return true;
-        }
+        if(numPairs == numsLen/2 ) return true;
         
         return false;
         
     }
 }
+
+
+
+
+
+
