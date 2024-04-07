@@ -33,6 +33,8 @@ class Array {
 // } Driver Code Ends
 
 
+
+
 class Solution{
     
     // arr: input array
@@ -42,29 +44,27 @@ class Solution{
         // Your code here
         
         
-        int leftInd = 0;
-        int rightInd = n-1;
-        
-        int leftMax = 0;
-        int rightMax = 0;
-        
-        long totalTrappedWater = 0;
-        
-        while(leftInd <= rightInd) {
-            if(leftMax <= rightMax) {
-                totalTrappedWater += Math.max(0, leftMax - arr[leftInd]);
-                leftMax = Math.max(leftMax, arr[leftInd]);
-                leftInd++;
-            }else {
-                totalTrappedWater += Math.max(0, rightMax - arr[rightInd]);
-                rightMax = Math.max(rightMax, arr[rightInd]);
-                rightInd--;
+        int maxSoFor = arr[0];
+        int[] maxArr = new int[n];
+        maxArr[0] = arr[0];
+        long sum = 0;
+        for(int i = 1; i < arr.length; i++) {
+            if(arr[i] > maxSoFor) {
+                maxSoFor = arr[i];
             }
+            maxArr[i] = maxSoFor;
         }
         
-        return totalTrappedWater;
+        maxSoFor = arr[n-1];
+        for(int i = n-2; i >=0 ; i--) {
+            if(arr[i] > maxSoFor) {
+                maxSoFor = arr[i];
+            }
+            int temp = Math.min(maxArr[i], maxSoFor);
+            sum += temp - arr[i];
+        }
         
-        
+        return sum;
     } 
 }
 
