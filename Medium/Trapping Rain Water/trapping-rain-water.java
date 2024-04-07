@@ -48,24 +48,21 @@ class Solution{
         int leftMax = 0;
         int rightMax = 0;
         
-        long result = 0;
+        long totalTrappedWater = 0;
         
         while(leftInd <= rightInd) {
-            
             if(leftMax <= rightMax) {
-                
-                result += Math.max(0, leftMax - arr[leftInd]);
+                totalTrappedWater += Math.max(0, leftMax - arr[leftInd]);
                 leftMax = Math.max(leftMax, arr[leftInd]);
                 leftInd++;
             }else {
-                
-                result += Math.max(0, rightMax - arr[rightInd]);
+                totalTrappedWater += Math.max(0, rightMax - arr[rightInd]);
                 rightMax = Math.max(rightMax, arr[rightInd]);
                 rightInd--;
             }
         }
         
-        return result;
+        return totalTrappedWater;
         
         
     } 
