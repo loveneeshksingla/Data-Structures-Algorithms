@@ -24,80 +24,93 @@ class GFG{
 // } Driver Code Ends
 
 
-
-
 // User function Template for Java
 
-
-
-
-
 class Solution{
-    static HashMap<Integer, Integer> ladderMap;
+    
     static HashMap<Integer, Integer> snakeMap;
+    static HashMap<Integer, Integer> ladderMap;
+    
     static int minThrow(int N, int arr[]){
         // code here
         
-        ladderMap = new HashMap<>();
+        
         snakeMap = new HashMap<>();
+        ladderMap = new HashMap<>();
         
-        int i = 0;
-        for( ; i < N-1; i = i + 2) {
-            ladderMap.put(arr[i], arr[i+1]);
+        int count = 0;
+        int index = 0;
+        
+        while(index < N) {
+            ladderMap.put(arr[index], arr[index+1]);
+            index = index + 2;
+            count++;
         }
         
-        for( ; i < 2*N-1; i = i + 2) {
-            snakeMap.put(arr[i], arr[i+1]);
-        }
-        
-        return solve(arr, N);
-        
-    }
-    
-    static int solve(int arr[], int N) {
-        
-        boolean[] vis = new boolean[31];
-        int[] dis = new int[31];
-        Queue<Integer> que = new LinkedList<>();
-        que.add(1);
-        vis[1] = true;
-        
-        for(int i = 0; i < 31; i++) {
-            dis[i] = Integer.MAX_VALUE;
-        }
-        dis[1] = 0;
-        
-        while(!que.isEmpty()) {
-            int curV = que.remove();
-            int curDis = dis[curV];
-            
-            for(int i = 1; i <= 6; i++) {
-                int tempV = curV + i;
-                if(tempV <= 30 && dis[tempV] > 1 + curDis) {
-                    dis[tempV] = 1 + curDis;
-                    if(ladderMap.containsKey(tempV)) {
-                        vis[tempV] = true;
-                        tempV = ladderMap.get(tempV);
-                        if(dis[tempV] > 1 + curDis)
-                        dis[tempV] = 1 + curDis;    
-                    }else if(snakeMap.containsKey(tempV)){
-                        vis[tempV] = true;
-                        tempV = snakeMap.get(tempV);
-                        if(dis[tempV] > 1 + curDis)
-                        dis[tempV] = 1 + curDis;
-                    }
-                    if(!vis[tempV]) {
-                        vis[tempV] = true;
-                        que.add(tempV);
-                    }
-                }
+        if(count < N) {
+            while(index < 2*N) {
+                snakeMap.put(arr[index], arr[index+1]);
+                index = index + 2;
             }
         }
         
-        return dis[30];
-    } 
+        return bfs(arr);
+    }
+    
+    
+    static int bfs(int[] arr) {
+        
+        PriorityQueue<Integer> que = new PriorityQueue<>();
+        
+        int[] board = new int[31];
+        
+        Arrays.fill(board, Integer.MAX_VALUE);
+        
+        board[1] = 0;
+        
+        que.add(1);
+        
+        while(!que.isEmpty()) {
+            
+            int curPlace = que.remove();
+            
+            for(int diceNum = 1; diceNum <= 6; diceNum++) {
+                
+                int nextPlace = curPlace + diceNum;
+                
+                if(nextPlace <= 30) {
+                    
+                    if(board[nextPlace] > board[curPlace] + 1) {
+                        board[nextPlace] = board[curPlace] + 1;
+                        que.add(nextPlace);
+                    }
+                    
+                    if(snakeMap.containsKey(nextPlace)) {
+                        nextPlace = snakeMap.get(nextPlace);
+                        if(board[nextPlace] > board[curPlace] + 1) {
+                            board[nextPlace] = board[curPlace] + 1;
+                            que.add(nextPlace);
+                        }
+                    }else if(ladderMap.containsKey(nextPlace)) {
+                        nextPlace = ladderMap.get(nextPlace);
+                        if(board[nextPlace] > board[curPlace] + 1) {
+                            board[nextPlace] = board[curPlace] + 1;
+                            que.add(nextPlace);
+                        }
+                    }
+                    
+                } 
+                
+            }
+        }
+        
+        return board[30];
+    }
+    
+    
+    
+    
 }
-
 
 
 
