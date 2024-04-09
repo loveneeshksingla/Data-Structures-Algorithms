@@ -24,34 +24,24 @@ class GFG{
 // } Driver Code Ends
 
 
+
+
 // User function Template for Java
 
 class Solution{
     
-    static HashMap<Integer, Integer> snakeMap;
-    static HashMap<Integer, Integer> ladderMap;
+    static HashMap<Integer, Integer> snakeLadderMap;
+
     
     static int minThrow(int N, int arr[]){
         // code here
         
-        
-        snakeMap = new HashMap<>();
-        ladderMap = new HashMap<>();
+        snakeLadderMap = new HashMap<>();
         
         int count = 0;
-        int index = 0;
-        
-        while(index < N) {
-            ladderMap.put(arr[index], arr[index+1]);
-            index = index + 2;
+        while(count < N) {
+            snakeLadderMap.put(arr[2*count], arr[2*count+1]);
             count++;
-        }
-        
-        if(count < N) {
-            while(index < 2*N) {
-                snakeMap.put(arr[index], arr[index+1]);
-                index = index + 2;
-            }
         }
         
         return bfs(arr);
@@ -63,11 +53,9 @@ class Solution{
         PriorityQueue<Integer> que = new PriorityQueue<>();
         
         int[] board = new int[31];
-        
         Arrays.fill(board, Integer.MAX_VALUE);
         
         board[1] = 0;
-        
         que.add(1);
         
         while(!que.isEmpty()) {
@@ -85,14 +73,8 @@ class Solution{
                         que.add(nextPlace);
                     }
                     
-                    if(snakeMap.containsKey(nextPlace)) {
-                        nextPlace = snakeMap.get(nextPlace);
-                        if(board[nextPlace] > board[curPlace] + 1) {
-                            board[nextPlace] = board[curPlace] + 1;
-                            que.add(nextPlace);
-                        }
-                    }else if(ladderMap.containsKey(nextPlace)) {
-                        nextPlace = ladderMap.get(nextPlace);
+                    if(snakeLadderMap.containsKey(nextPlace)) {
+                        nextPlace = snakeLadderMap.get(nextPlace);
                         if(board[nextPlace] > board[curPlace] + 1) {
                             board[nextPlace] = board[curPlace] + 1;
                             que.add(nextPlace);
@@ -111,7 +93,6 @@ class Solution{
     
     
 }
-
 
 
 
