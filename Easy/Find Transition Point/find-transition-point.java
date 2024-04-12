@@ -20,6 +20,8 @@ class Sorted_Array {
 // } Driver Code Ends
 
 
+
+
 class Solution {
     int transitionPoint(int arr[], int n) {
         // code here
