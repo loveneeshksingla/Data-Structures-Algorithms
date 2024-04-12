@@ -18,11 +18,9 @@ class Solution{
         // Complete the function
         
         HashMap<Integer, Integer> map = new HashMap<>();
-        
         map.put(0, -1);
         
         int maxLen = 0;
-        
         int sum = 0;
         
         for(int ind = 0; ind < n; ind++) {
@@ -37,8 +35,6 @@ class Solution{
             }else {
                 map.put(rem, ind);
             }
-            
-            
             
         }
         
