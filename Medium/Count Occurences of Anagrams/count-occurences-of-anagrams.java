@@ -23,6 +23,8 @@ class GFG {
 // } Driver Code Ends
 
 
+
+
 // User function Template for Java
 
 class Solution {
@@ -47,21 +49,16 @@ class Solution {
         
         for(int ind = 0; ind < txtLen; ind++) {
             txtMap.put(txt.charAt(ind), txtMap.getOrDefault(txt.charAt(ind), 0) + 1);
-            
             if(ind >= patLen-1) {
-                
                 if(txtMap.equals(patMap)) {
                     numOfOccurrences++;
                 }
-                
                 int firstKeyInd = ind - patLen + 1;
                 txtMap.put(txt.charAt(firstKeyInd), txtMap.get(txt.charAt(firstKeyInd)) - 1);
                 if(txtMap.get(txt.charAt(firstKeyInd)) == 0) {
                     txtMap.remove(txt.charAt(firstKeyInd));
                 }
             }
-            
-            
         }
         
         return numOfOccurrences;
