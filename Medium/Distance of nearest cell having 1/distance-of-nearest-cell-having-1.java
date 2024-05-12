@@ -34,66 +34,75 @@ class GFG
 // } Driver Code Ends
 
 
+
+class Pair {
+    int x;
+    int y;
+    
+    public Pair(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+
+
 class Solution
 {
-    
-    class Pair {
-        int x;
-        int y;
-        
-        Pair(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-    }
     //Function to find distance of nearest 1 in the grid for each cell.
     public int[][] nearest(int[][] grid)
     {
-        // Code here
-        int n = grid.length;
-        int m = grid[0].length;
-        Queue<Pair> que = new LinkedList<>();
-        int[][] dis = new int[n][m];
         
-        for(int i = 0; i < n; i++) {
-            for(int j = 0; j < m; j++) {
-                if(grid[i][j] == 1) {
-                    dis[i][j] = 0;
-                    que.add(new Pair(i, j));
-                }else {
-                    dis[i][j] = Integer.MAX_VALUE;
+        Queue<Pair> que = new LinkedList<>();
+        
+        int gridRowsLen = grid.length;
+        int gridColsLen = grid[0].length;
+        
+        boolean[][] vis = new boolean[gridRowsLen][gridColsLen];
+        int[][] dis = new int[gridRowsLen][gridColsLen];
+        
+        for(int rowInd = 0; rowInd < gridRowsLen; rowInd++) {
+            for(int colInd = 0; colInd < gridColsLen; colInd++) {
+                if(grid[rowInd][colInd] == 1) {
+                    que.add(new Pair(rowInd, colInd));
+                    dis[rowInd][colInd] = 0;
+                    vis[rowInd][colInd] = true;
                 }
             }
         }
+        
         
         while(!que.isEmpty()) {
-            Pair cur  = que.remove();
             
-            for(int i = 0; i < 4; i++) {
-                int curX = cur.x + dx[i];
-                int curY = cur.y + dy[i];
+            Pair curPair = que.remove();
+            
+            int curX = curPair.x;
+            int curY = curPair.y;
+            
+            for(int ind = 0; ind < 4; ind++) {
                 
-                if(areIndexsValid(grid, curX, curY) && dis[curX][curY] > dis[cur.x][cur.y] + (Math.abs(curX-cur.x) + Math.abs(curY-cur.y)) ) {
-                    dis[curX][curY] = dis[cur.x][cur.y] + (Math.abs(curX-cur.x) + Math.abs(curY-cur.y));
-                    que.add(new Pair(curX, curY));
+                int x = curX + dx[ind];
+                int y = curY + dy[ind];
+                
+                if(areIndexsFaesible(x, y, gridRowsLen, gridColsLen) && grid[x][y] == 0 && !vis[x][y]) {
+                    dis[x][y] = Math.abs(curX - x) + Math.abs(curY - y) + dis[curX][curY];
+                    que.add(new Pair(x, y));
+                    vis[x][y] = true;
                 }
+                
             }
         }
         
-        
         return dis;
+        
+        
+    }
+    
+    private boolean areIndexsFaesible(int x, int y, int totalRows, int totalCols) {
+        return x >= 0 && y >= 0 && x < totalRows && y < totalCols;
     }
     
     int[] dx = {-1, 1, 0, 0};
     int[] dy = {0, 0, -1, 1};
-    
-    
-    boolean areIndexsValid(int[][] grid, int x, int y) {
-        int n = grid.length;
-        int m = grid[0].length;
-        
-        return x >= 0 && y >= 0 && x < n && y < m;
-    }
 }
 
 
