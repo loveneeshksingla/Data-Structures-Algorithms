@@ -43,28 +43,27 @@ class Solution{
     static long trappingWater(int arr[], int n) { 
         // Your code here
         
+        int l = 0;
+        int r = n-1;
         
-        int maxSoFor = arr[0];
-        int[] maxArr = new int[n];
-        maxArr[0] = arr[0];
-        long sum = 0;
-        for(int i = 1; i < arr.length; i++) {
-            if(arr[i] > maxSoFor) {
-                maxSoFor = arr[i];
+        int lMax = 0;
+        int rMax = 0;
+        
+        long result = 0;
+        while(l <= r) {
+            
+            if(lMax <= rMax) {
+                result = result + (long)Math.max(0, lMax - arr[l]);
+                lMax = Math.max(lMax, arr[l]);
+                l++;
+            }else {
+                result = result + (long)Math.max(0, rMax - arr[r]);
+                rMax = Math.max(rMax, arr[r]);
+                r--;
             }
-            maxArr[i] = maxSoFor;
         }
         
-        maxSoFor = arr[n-1];
-        for(int i = n-2; i >=0 ; i--) {
-            if(arr[i] > maxSoFor) {
-                maxSoFor = arr[i];
-            }
-            int temp = Math.min(maxArr[i], maxSoFor);
-            sum += temp - arr[i];
-        }
-        
-        return sum;
+        return result;
     } 
 }
 
