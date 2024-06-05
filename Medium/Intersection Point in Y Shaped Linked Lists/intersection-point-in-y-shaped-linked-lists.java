@@ -1,6 +1,6 @@
 //{ Driver Code Starts
 import java.util.*;
-
+import java.io.*;
 
 class Node
 {
@@ -35,82 +35,87 @@ public void addToTheLast(Node node)
 }
 
   /* Function to print linked list */
-    void printList()
+    void printList(PrintWriter out)
     {
         Node temp = head;
         while (temp != null)
         {
-           System.out.print(temp.data+" ");
+           out.print(temp.data+" ");
            temp = temp.next;
         }  
-        System.out.println();
+        out.println();
     }
 	
 	 
  
      /* Driver program to test above functions */
-    public static void main(String args[])
+    public static void main(String args[])throws IOException
     {
        
          
         /* Constructed Linked List is 1->2->3->4->5->6->
            7->8->8->9->null */
-         Scanner sc = new Scanner(System.in);
-		 int t=sc.nextInt();
+         BufferedReader in=new BufferedReader(new InputStreamReader(System.in));
+         PrintWriter out=new PrintWriter(System.out);
+		 int t=Integer.parseInt(in.readLine().trim());
 		 
 		 while(t>0)
          {
-			int n1 = sc.nextInt();
-			int n2 = sc.nextInt();
-			int n3 = sc.nextInt();
+            String s[]=in.readLine().trim().split(" ");
+			int n1 = Integer.parseInt(s[0]);
+			int n2 = Integer.parseInt(s[1]);
+			int n3 = Integer.parseInt(s[2]);
 			LinkedList_Intersection llist1 = new LinkedList_Intersection();
 		    LinkedList_Intersection llist2 = new LinkedList_Intersection();
 			LinkedList_Intersection llist3 = new LinkedList_Intersection();
 			
-				int a1=sc.nextInt();
+			    s=in.readLine().trim().split(" ");
+				int a1=Integer.parseInt(s[0]);
 				Node head1= new Node(a1);
 				Node tail1= head1;
 				
 				for (int i = 1; i < n1; i++) 
 				{
-					int a = sc.nextInt(); 
+					int a = Integer.parseInt(s[i]); 
 					tail1.next = (new Node(a));
 					tail1= tail1.next;
 				}
 			
-			
-				int b1=sc.nextInt();
+			    s=in.readLine().trim().split(" ");
+				int b1=Integer.parseInt(s[0]);
 				Node head2 = new Node(b1);
 				Node tail2 = head2;
 				for (int i = 1; i < n2; i++) 
 				{
-					int b = sc.nextInt();  
+					int b = Integer.parseInt(s[i]);  
 					tail2.next = (new Node(b));
 					tail2= tail2.next;
 				}
-				if(n3>0){
-				int c1=sc.nextInt();
-				Node head3= new Node(c1);
-				tail1.next = head3;
-				tail2.next = head3;
-				Node tail3=head3;
-				for (int i = 1; i < n3; i++) 
-				{
-					int c = sc.nextInt();   
-					tail3.next = (new Node(c));
-					tail3= tail3.next;
+				if(n3!=0){
+				    s=in.readLine().trim().split(" ");
+    				int c1=Integer.parseInt(s[0]);
+    				Node head3= new Node(c1);
+    				tail1.next = head3;
+    				tail2.next = head3;
+    				Node tail3=head3;
+    				for (int i = 1; i < n3; i++) 
+    				{
+    					int c = Integer.parseInt(s[i]); 
+    					tail3.next = (new Node(c));
+    					tail3= tail3.next;
+    				}
 				}
-				}
+				
+				
 				Intersect obj = new Intersect();
-				System.out.println(obj.intersectPoint(head1, head2));
+				out.println(obj.intersectPoint(head1, head2));
 			t--;			
          }
+         out.close();
     }
 }
 
 // } Driver Code Ends
-
-
 
 
 
@@ -134,63 +139,52 @@ class Intersect
 	{
          // code here
          
-        if(head1 == null || head2 == null) {
-            return -1;
-        }
          
-        int head1Size = findLength(head1);
-        int head2Size = findLength(head2);
-        
-        
-        int diff = head1Size - head2Size;
-        
-        if(diff < 0) {
-            diff = -1 * diff;
-            int count = 0;
-            while(count < diff && head2 != null) {
-                head2 = head2.next;
-                count++;
-            }
-        }else if(diff > 0){
-            int count = 0;
-            while(count < diff && head1 != null) {
-                head1 = head1.next;
-                count++;
-            }
-        }
-        
-        
-        
-        while(head1 != null && head2 != null) {
-            if(head1 == head2) {
-                return head1.data;
-            }
-            
-            head1 = head1.next;
-            head2 = head2.next;
-        }
-        
-        return -1;
+         int count1 = 0;
          
-	}
-	
-
-	int findLength(Node root) {
-	    Node temp = root;
-	    int count = 0;
-	    
-	    while(temp != null) {
-	        count++;
-	        temp = temp.next;
-	    }
-	    
-	    return count;
+         Node temp = head1;
+         
+         
+         while(temp != null) {
+             count1++;
+             temp = temp.next;
+         }
+         
+         int count2 = 0;
+         temp = head2;
+         while(temp != null) {
+             count2++;
+             temp = temp.next;
+         }
+         
+         if(count1 > count2) {
+             int diff = count1 - count2;
+             while(diff > 0) {
+                 head1 = head1.next;
+                 diff--;
+             }
+         }
+         
+         if(count1 < count2) {
+             int diff = count2 - count1;
+             while(diff > 0) {
+                 head2 = head2.next;
+                 diff--;
+             }
+         }
+         
+         
+         while(head1 != null && head2 != null) {
+             if(head1 == head2) {
+                 return head1.data;
+             }
+             
+             head1 = head1.next;
+             head2 = head2.next;
+         }
+         
+         return -1;
 	}
 }
-
-
-
-
-
 
 
