@@ -100,9 +100,8 @@ class Flatttening_A_LinkedList
 // } Driver Code Ends
 
 
-
-
 /*Node class  used in the program
+
 class Node
 {
 	int data;
@@ -115,47 +114,54 @@ class Node
 		next = null;
 		bottom = null;
 	}
+	
 }
 */
 /*  Function which returns the  root of 
     the flattened linked list. */
+    
+    
 class GfG
 {
+    
     Node flatten(Node root)
     {
-	// Your code here
-	    PriorityQueue<Integer> que = new PriorityQueue<>();
-	    solve(root,que);
-	   // System.out.println(que.size());
-	    Node dummy = new Node(0);
-	    Node tail = dummy;
-	    
-	    while(!que.isEmpty()) {
-	        
-	        tail.bottom = new Node(que.remove());
-	        tail = tail.bottom;
-	        
-	        
-	    }
-	    
-	    return dummy.bottom;
+        if(root == null) return null;
+        root.next = flatten(root.next);
+        return merge(root, root.next);
     }
     
-    public void solve(Node root, PriorityQueue<Integer> que) {
-        if(root == null) {
-            return;
+    Node merge(Node root1, Node root2) {
+        
+        Node dummy = new Node(0);
+        Node prev = dummy;
+        
+        while(root1 != null && root2 != null) {
+            if(root1.data < root2.data) {
+                prev.bottom = root1;
+                prev = prev.bottom;
+                root1 = root1.bottom;
+            }else {
+                prev.bottom = root2;
+                prev = prev.bottom;
+                root2 = root2.bottom;
+            }
         }
         
+        if(root1 != null) {
+            prev.bottom = root1; 
+        }
         
-        que.add(root.data);
-        solve(root.next, que);
-        solve(root.bottom, que);
+        if(root2 != null) {
+            prev.bottom = root2;
+        }
+        
+        Node temp = dummy.bottom;
+        
+        return dummy.bottom;
     }
+    
 }
-
-
-
-
 
 
 
