@@ -120,36 +120,37 @@ class Node {
 
 class Solution {
     
-    int max = Integer.MIN_VALUE;
+    int maxDia = Integer.MIN_VALUE;
     int diameter(Node root) {
         // Your code here
-        
-        
-        dia(root);
-        
-        return max;
+        solve(root);
+        return maxDia;
     }
     
-    int dia (Node root) {
-        if (root == null) return 0;
+    int solve(Node root) {
+        if (root == null ) return 0;
         
         int left = 0;
         int right = 0;
         
-        if(root.left != null) {
-            left = dia(root.left) + 1;
+        if (root.left != null) {
+            left = 1 + solve(root.left);
+        }
+
+        if (root.right != null) {
+            right = 1 + solve(root.right);
         }
         
-        if(root.right != null) {
-            right= dia(root.right) + 1;
-        }
+        int dia = left + right;
         
-        max = Math.max(left+right, max);
+        maxDia = Math.max(dia, maxDia);
         
         return Math.max(left, right);
         
     }
 }
+
+
 
 
 
