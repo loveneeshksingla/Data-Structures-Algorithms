@@ -16,6 +16,7 @@ class Node {
 // } Driver Code Ends
 
 
+
 //User function Template for Java
 /*
 class Node
@@ -95,6 +96,8 @@ class Solution
 
 
 
+
+
 //{ Driver Code Starts.
 
 class GFG {
@@ -129,7 +132,9 @@ class GFG {
             }
             head = new Solution().mergeSort(head);
             printList(head);
-        }
+        
+System.out.println("~");
+}
     }
 }
 
