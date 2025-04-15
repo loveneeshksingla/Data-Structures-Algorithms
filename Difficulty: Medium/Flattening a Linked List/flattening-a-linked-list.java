@@ -121,43 +121,51 @@ class Node
     the flattened linked list. */
 class GfG
 {
-    PriorityQueue<Integer> que = new PriorityQueue<>();
     Node flatten(Node root)
     {
-	// Your code here
-	
-	    Node head = null;
-	    Node tail = null;
-	
-	    solve(root);
-	    while(!que.isEmpty()) {
-	        if(head == null) {
-	            head = new Node(que.remove());
-	            tail = head;
-	        } else {
-	            tail.bottom = new Node(que.remove());
-	            tail = tail.bottom;
-	        }
-	    }
-	    
-	    return head;
-	
+        if (root == null) {
+            return null;
+        }
+        
+        root.next = flatten(root.next);
+        return merge(root, root.next);
+        
     }
     
-    void solve(Node root) {
+    Node merge (Node root1, Node root2) {
         
-        if (root == null) {
-            return;
+        Node dummy = new Node(0);
+        Node prev = dummy;
+        
+        while (root1 != null && root2 != null) {
+            
+            if (root1.data < root2.data) {
+                prev.bottom = root1;
+                root1 = root1.bottom;
+                prev.next = null;
+                prev = prev.bottom;
+            } else {
+                prev.bottom = root2;
+                root2 = root2.bottom;
+                prev.next = null;
+                prev = prev.bottom;
+            }
         }
         
-        if(root != null) {
-            que.add(root.data);
+        if (root1 != null) {
+            prev.bottom = root1;
         }
         
-        solve(root.bottom);
-        solve(root.next);
+        if (root2 != null) {
+            prev.bottom = root2;
+        }
+        
+        return dummy.bottom;
     }
 }
+
+
+
 
 
 
