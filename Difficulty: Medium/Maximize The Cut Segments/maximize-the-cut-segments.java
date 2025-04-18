@@ -1,42 +1,37 @@
 //{ Driver Code Starts
-//Initial Template for Java
+// Initial Template for Java
 
-import java.util.*;
 import java.io.*;
 import java.lang.*;
+import java.util.*;
 
-class Driver
-{
-    public static void main(String args[])throws IOException
-    {
-        //reading input using BufferedReader class
+class Driver {
+    public static void main(String args[]) throws IOException {
+        // reading input using BufferedReader class
         BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
-        
-        //reading total testcases
+
+        // reading total testcases
         int t = Integer.parseInt(read.readLine());
-        
-        while(t-- > 0)
-        {
-            //reading length of line segment
+
+        while (t-- > 0) {
+            // reading length of line segment
             int n = Integer.parseInt(read.readLine().trim());
-            
-            
-            //reading 3 segment lengths
-            String str[] = read.readLine().trim().split(" ");
-            
-            int x = Integer.parseInt(str[0]);
-            int y = Integer.parseInt(str[1]);
-            int z = Integer.parseInt(str[2]);
-            
-            
-            //calling method maximizeCuts() of class Solution()
-            //and printinting the result
+            int x = Integer.parseInt(read.readLine().trim());
+            int y = Integer.parseInt(read.readLine().trim());
+            int z = Integer.parseInt(read.readLine().trim());
+
+            // calling method maximizeCuts() of class Solution()
+            // and printinting the result
             System.out.println(new Solution().maximizeCuts(n, x, y, z));
+
+            System.out.println("~");
         }
     }
 }
 
 // } Driver Code Ends
+
+
 
 
 
@@ -47,40 +42,51 @@ class Driver
 class Solution
 {
     //Function to find the maximum number of cuts.
-    public int maximizeCuts(int n, int x, int y, int z)
-    {
-       //Your code here
-       
-        int[] dp = new int[n+1];
-        Arrays.fill(dp, -1);
-        int result = getMaxCuts(n, x, y, z, dp);
-        if(result >= 0) return result;
-        return 0;
+
+    
+    public int maximizeCuts(int n, int x, int y, int z) {
+        // Your code here
         
+        int[] dp = new int[n+1];
+        for (int ind = 0; ind <= n; ind++) {
+            dp[ind] = -1;
+        }
+        
+        int res = solve(n, x, y, z, dp);
+        
+        if (res <= 0) return 0;
+        return res;
     }
     
     
-    public int getMaxCuts(int n, int x, int y, int z, int[] dp) {
-        
-        if( n <= 0) return 0;
-        
-        if(dp[n] != -1) return dp[n];
-        
-        int r1 = Integer.MIN_VALUE, r2 = Integer.MIN_VALUE, r3 = Integer.MIN_VALUE;
-        
-        if(x <= n) {
-            r1 = 1 + getMaxCuts(n-x, x, y, z, dp);
+    public int solve(int n, int x, int y, int z, int[]  dp) {
+        if (n <= 0) {
+            return 0;
         }
         
-        if(y <= n) {
-            r2 = 1 + getMaxCuts(n-y, x, y, z, dp);
+
+        
+        if (x > n && y > n && z > n) {
+            return Integer.MIN_VALUE;
         }
         
-        if(z <= n) {
-            r3 = 1 + getMaxCuts(n-z, x, y, z, dp);
+        if (dp[n] != -1) return dp[n];
+        
+        int res1 = Integer.MIN_VALUE;
+        int res2 = Integer.MIN_VALUE;
+        int res3 = Integer.MIN_VALUE;
+        
+        if (x <= n)  {
+            res1 = 1 + solve((n-x), x, y, z, dp);
+        }
+        if (y <= n)  {
+            res2 = 1 + solve((n-y), x, y, z, dp);
+        }
+        if (z <= n)  {
+            res3 = 1 + solve((n-z), x, y, z, dp);
         }
         
-        return dp[n] = Math.max(r1, Math.max(r2, r3));
+        return dp[n] = Math.max(res1, Math.max(res2, res3));
     }
     
 }
