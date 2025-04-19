@@ -92,7 +92,9 @@ class DeleteNodes{
 			inorder(root);
 			System.out.println();
                 t--;
-        }
+        
+System.out.println("~");
+}
     }
 
 	
@@ -108,8 +110,6 @@ class DeleteNodes{
 }
 
 // } Driver Code Ends
-
-
 
 
 /*Complete the function below
@@ -128,31 +128,31 @@ class Solution
          public Node deleteNode(Node root,int k)
          {
          //add code here.
+         
             return solve(root, k);
          }
          
-         
-         
-         
-        public static Node solve(Node root, int x) {
+        public Node solve(Node root, int k) {
             
-        if( root == null || (root.data >= x  && root.left == null) ) {
-            return null;
+            if (root == null) return null;
+            
+            if (root.data == k) {
+                return root.left;
+            } else if (root.data < k) {
+                root.right = solve(root.right, k);
+            } else {
+                return solve(root.left, k);
+            }
+            
+            return root;
         }
-        
-        
-        if( root.data >= x ) {
-            return solve(root.left, x);
-        }
-        
-        
-        
-        root.left = solve(root.left, x);
-        root.right = solve(root.right, x);
-        
-        return root;
-    }
-         
-         
-         
    }
+   
+   
+   
+   
+   
+   
+   
+   
+   
