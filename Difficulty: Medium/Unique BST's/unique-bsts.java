@@ -1,12 +1,13 @@
 //{ Driver Code Starts
-//Initial Template for Java
+// Initial Template for Java
 
-import java.util.*;
 import java.io.*;
 import java.lang.*;
+import java.util.*;
 
 
 // } Driver Code Ends
+
 //User function Template for Java
 
 class Solution
@@ -23,7 +24,7 @@ class Solution
         
         for(int i = 2; i <= N; i++) {
             for(int root = 1; root <= i;  root++) {
-                dp[i] = (dp[i] + (dp[root - 1] * dp[i - root])) % 1000000007; 
+                dp[i] = (dp[i] + (dp[root - 1] * dp[i - root])); 
             }
         }
         
@@ -33,29 +34,30 @@ class Solution
 
 
 
+
+
 //{ Driver Code Starts.
 
-class GFG
-{
-    public static void main(String args[])
-    {
-        //taking input using Scanner class
+class GFG {
+    public static void main(String args[]) {
+        // taking input using Scanner class
         Scanner sc = new Scanner(System.in);
-        
-        //taking total testcases
+
+        // taking total testcases
         int t = sc.nextInt();
-        
-        while(t-- > 0)
-        {
-            //taking n
-            int n =sc.nextInt();
-            
-            //creating an object of class Solution
+
+        while (t-- > 0) {
+            // taking n
+            int n = sc.nextInt();
+
+            // creating an object of class Solution
             Solution ob = new Solution();
-            
-            //calling method numTrees() of 
-            //class Solution
+
+            // calling method numTrees() of
+            // class Solution
             System.out.println(ob.numTrees(n));
+
+            System.out.println("~");
         }
     }
 }
