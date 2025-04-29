@@ -1,104 +1,98 @@
 //{ Driver Code Starts
-//Initial template for JAVA
+// Initial Template for Java
 
-import java.util.*;
 import java.io.*;
-import java.lang.*;
+import java.util.*;
 
-class Driverclass
-{
-    static ArrayList<ArrayList<Integer>> res = new ArrayList<>();
-    public static void main (String[] args)throws IOException {
-        
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        PrintWriter out = new PrintWriter(System.out);
-        int t = Integer.parseInt(br.readLine());
-        
-        while(t-- >0)
-        {
-            String str[] = br.readLine().trim().split(" ");
-            int n = Integer.parseInt(str[0]);
-            ArrayList<Integer> list = new ArrayList<>();
-            str = br.readLine().trim().split(" ");
-            for(int i = 0; i <n ;i++)
-                list.add(Integer.parseInt(str[i]));
-            str = br.readLine().trim().split(" ");    
-            int sum = Integer.parseInt(str[0]);
-            
+class GfG {
+    public static void main(String args[]) throws IOException {
+        BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(read.readLine());
+
+        while (t-- > 0) {
+            String inputLine[] = read.readLine().trim().split(" ");
+            int n = inputLine.length;
+            int arr[] = new int[n];
+            for (int i = 0; i < n; i++) {
+                arr[i] = Integer.parseInt(inputLine[i]);
+            }
+            int sum = Integer.parseInt(read.readLine());
             Solution ob = new Solution();
-            
-            res = ob.combinationSum(list, sum);
-            if (res.size() == 0) {
-    			out.print("Empty");
-    		}
- 
-    		// Print all combinations stored in res.
-    		for (int i = 0; i < res.size(); i++) {
-    			if (res.size() > 0) {
-    				out.print("(");
-    				List<Integer> ij = res.get(i);
-    				for (int j = 0; j < ij.size(); j++) {
-    				    
-    					out.print(ij.get(j));
-    					if(j < ij.size()-1)
-    					 out.print(" ");
-    				}
-    				out.print(")");
-    			}
-    		}
-    		out.println();
-    		res.clear();
-	    }
-	    out.flush();
+            ArrayList<ArrayList<Integer>> ans = ob.combinationSum(arr, sum);
+            if (ans.size() == 0)
+                System.out.println(-1);
+            else {
+                for (ArrayList<Integer> row : ans) {
+                    Collections.sort(row);
+                }
+                ans.sort((list1, list2) -> {
+                    int size = Math.min(list1.size(), list2.size());
+                    for (int i = 0; i < size; i++) {
+                        if (!list1.get(i).equals(list2.get(i))) {
+                            return list1.get(i) - list2.get(i);
+                        }
+                    }
+                    return list1.size() -
+                        list2.size(); // If equal, smaller list comes first
+                });
+
+                for (int i = 0; i < ans.size(); i++) {
+                    System.out.print("[");
+                    for (int j = 0; j < ans.get(i).size(); j++)
+                        System.out.print(ans.get(i).get(j) + " ");
+                    System.out.print("] ");
+                }
+                System.out.println();
+            }
+            System.out.println("~");
+        }
     }
-    
 }
+
 // } Driver Code Ends
 
 
+// User function template for JAVA
 
-
-//User function template for JAVA
-
-class Solution
-{
-    //Function to return a list of indexes denoting the required 
-    //combinations whose sum is equal to given number.
-    static ArrayList<ArrayList<Integer>> combinationSum(ArrayList<Integer> A, int B)
-    {
- 
-        Set<Integer> set = new HashSet<>(A);
-        A.clear();
-        A.addAll(set);
-        Collections.sort(A);
+class Solution {
+    // Function to find all combinations of elements
+    // in array arr that sum to target.
+    static ArrayList<ArrayList<Integer>> combinationSum(int[] arr, int target) {
+        // add your code here
+        
+        Arrays.sort(arr);
         ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
-        ArrayList<Integer> cur = new ArrayList<>();
-        solve(A, B, ans, cur, 0);
+        
+        ArrayList<Integer> curList = new ArrayList<>();
+        
+        solve(arr, target, ans, curList, 0);
         
         return ans;
-        
     }
     
-    static void solve(ArrayList<Integer> A, int B, ArrayList<ArrayList<Integer>> ans, ArrayList<Integer> cur, int ind) {
+    
+    static void solve(int[] arr, int target, ArrayList<ArrayList<Integer>> ans, ArrayList<Integer> curList, int i) {
         
-        
-        if(B == 0) {
-            ans.add(cur);
+        if (target == 0) {
+           if (!ans.contains(curList)) {
+                ans.add(new ArrayList(curList));
+}
             return;
         }
         
         
-        
-        for(int i = ind; i < A.size(); i++) {
-            if(A.get(i) <= B) {
-                cur.add(A.get(i));
-                solve(A, B - A.get(i), ans, new ArrayList(cur), i);
-                cur.remove(cur.size()-1);
+        for (int ind = i; ind < arr.length; ind++) {
+            
+            if (arr[ind] <= target) {
+                curList.add(arr[ind]);
+                solve(arr, target-arr[ind], ans, curList, ind);
+                curList.remove(curList.size()-1);
             }
         }
+        
     }
-    
-    
-    
-    
 }
+
+
+
+
