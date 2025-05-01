@@ -45,93 +45,94 @@ System.out.println("~");
 // } Driver Code Ends
 
 
+// User function Template for Java
 
-
-//User function Template for Java
-
-class Solution
-{
+class Solution {
     
-    int[] dx = { -1, -1, -1, 0, 0, 1, 1, 1};
-    int[] dy = { -1, 0, 1, -1, 1, -1, 0, 1};
     
-    public int[][] searchWord(char[][] grid, String word)
-    {
+    
+    
+    
+    public int[][] searchWord(char[][] grid, String word) {
         // Code here
         
-        int rowsLen = grid.length;
-        int colsLen = grid[0].length;
         
-        ArrayList<ArrayList<Integer>> ansList = new ArrayList<>();
+        int rowSize = grid.length;
+        int colSize = grid[0].length;
         
+        ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
         
-        for(int rowInd = 0; rowInd < rowsLen; rowInd++) {
-            for(int colInd = 0; colInd < colsLen; colInd++) {
-                if(grid[rowInd][colInd] == word.charAt(0)) {
-                    for(int ind = 0; ind < 8; ind++) {
-                        
-                        int curX = rowInd + dx[ind];
-                        int curY = colInd + dy[ind];
-                        
-                        boolean res = isWordPresent(grid, curX, curY, ind, word.substring(1));
-                        
-                        if(res) {
-                            ArrayList<Integer> curIndexs = new ArrayList<>();
-                            curIndexs.add(rowInd);
-                            curIndexs.add(colInd);
-                            ansList.add(curIndexs);
+        boolean[][] vis = new boolean[rowSize][colSize];
+        
+        for (int rowInd = 0; rowInd < rowSize; rowInd++) {
+            for (int colInd = 0; colInd < colSize; colInd++) {
+                if (grid[rowInd][colInd] == word.charAt(0)) {
+                    for (int dirInd = 0; dirInd < 8; dirInd++) {
+                        vis[rowInd][colInd] = true;
+                        boolean res = solve(grid, rowInd, colInd, word.substring(1), dirInd);
+                        if (res) {
+                            ArrayList<Integer> curList = new ArrayList<>();
+                            curList.add(rowInd);
+                            curList.add(colInd);
+                            ans.add(curList);
                             break;
                         }
-                        
-                    }
+                   }
                 }
             }
         }
         
-        int totalIndexsFound = ansList.size();
-        int[][] finalAns = new int[totalIndexsFound][2];
         
-        int tInd = 0;
+        int[][] finalAns = new int[ans.size()][2];
         
-        for(ArrayList<Integer> list : ansList) {
+        for (int ind = 0; ind < ans.size(); ind++) {
             
-            int num1 = list.get(0);
-            int num2 = list.get(1);
-            
-            int[] newArr = {num1, num2};
-            
-            finalAns[tInd++] = newArr;
-            
+            finalAns[ind][0] = ans.get(ind).get(0);
+            finalAns[ind][1] = ans.get(ind).get(1);
         }
+        
         
         return finalAns;
+        
     }
     
-    public boolean areIndexsFeasible(int x, int y, int tR, int tC) {
-        return x >= 0 && y >= 0 && x < tR && y < tC;
+    
+    int[] dx = { -1, -1, -1, 0, 0, 1, 1, 1};
+    int[] dy = { -1, 0, 1, -1, 1, -1, 0, 1};
+    
+    
+    public boolean areIndicesValid(int x, int y, int rowSize, int colSize) {
+        return x >= 0 && y >= 0 && x < rowSize && y < colSize;
     }
     
-    public boolean isWordPresent(char[][] grid, int x, int y, int ind, String word) {
+    public boolean solve(char[][] grid, int rInd, int cInd, String word, int ind) {
         
-        if(word.length() == 0) {
-            return true;
-        }
+        if (word.length() == 0) return true;
         
-        int rowsLen = grid.length;
-        int colsLen = grid[0].length;
         
-        if(!areIndexsFeasible(x, y, rowsLen, colsLen)) {
+        int curX = rInd + dx[ind];
+        int curY = cInd + dy[ind];
+        
+        if (!areIndicesValid(curX, curY, grid.length, grid[0].length)) {
             return false;
         }
         
-        if(grid[x][y] != word.charAt(0)) {
+        if ( grid[curX][curY] != word.charAt(0)) {
             return false;
         }
-        
-        return isWordPresent(grid, x+dx[ind], y+dy[ind], ind, word.substring(1));
+            
+        return solve(grid, curX, curY, word.substring(1), ind);
+            
         
     }
+    
+    
+    
+    
+    
 }
+
+
 
 
 
