@@ -1,84 +1,105 @@
 //{ Driver Code Starts
-//Initial Template for Java
-
-import java.io.*;
-import java.util.*; 
+// Initial Template for Java
+import java.util.*;
 
 
 // } Driver Code Ends
-//User function Template for Java
 
-class Solution 
-{ 
-    static int catchThieves(char arr[], int n, int k) 
-	{ 
-
-        int pol = -1, thi = -1, res = 0;
-        for (int i = 0; i < n; i++) {
-            if (arr[i] == 'P') {
-                pol = i;
-                break;
+class Solution {
+    public int catchThieves(char[] arr, int k) {
+        // code here
+        
+        
+        int pInd = -1;
+        int tInd = -1;
+        
+        int arrSize = arr.length;
+        
+        for (int ind = 0; ind < arr.length; ind++) {
+            
+            if (arr[ind] == 'P' && pInd == -1) {
+                pInd = ind;
+            }
+            
+            if (arr[ind] == 'T' && tInd == -1) {
+                tInd = ind;
             }
         }
-
-        for (int i = 0; i < n; i++) {
-            if (arr[i] == 'T') {
-                thi = i;
-                break;
-            }
+        
+        int count = 0;
+        
+        if (pInd == -1 || tInd == -1) {
+            return count;
         }
-
-        if (thi == -1 || pol == -1)
-            return 0;
-        while (pol < n && thi < n) {
-            if (Math.abs(pol - thi) <= k) {
-                pol++;
-                while (pol < n && arr[pol] != 'P')
-                    pol++;
-                thi = thi + 1;
-                while (thi < n && arr[thi] != 'T')
-                    thi++;
-                res++;
+        
+        while (pInd < arrSize && tInd < arrSize) {
+            // System.out.println(pInd + "   " + tInd);
+            if (Math.abs(pInd - tInd) <= k && tInd < arrSize && pInd < arrSize) {
+                count++;
+                tInd++;
+                if (tInd > 7) {
+                    // System.out.println(arr[tInd] + "<tInd========" + tInd);
+                }
+                while (tInd < arrSize && arr[tInd] != 'T') {
+                    tInd++; 
+                }
+                pInd++;
+                while (pInd < arrSize && arr[pInd] != 'P') {
+                    pInd++; 
+                }
+            } else {
+                if (pInd < tInd) {
+                    pInd++;
+                    while (pInd < arrSize && arr[pInd] != 'P') {
+                    pInd++; 
+                }
+                } else {
+                    tInd++;
+                    while (tInd < arrSize && arr[tInd] != 'T') {
+                    tInd++; 
+                }
+                }
             }
-
-            else if (thi < pol) {
-                thi++;
-                while (thi < n && arr[thi] != 'T')
-                    thi++;
-            }
-            else {
-                pol++;
-                while (pol < n && arr[pol] != 'P')
-                    pol++;
-            }
+            // System.out.println(count);
+            
         }
+        
+        return count;
+    }
+}
 
-        return res;
-	} 
-} 
+
+
+
+
 
 
 
 
 
 //{ Driver Code Starts.
-class GFG{
-    public static void main(String args[]) throws IOException {
+public class Main {
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int t = sc.nextInt();
 
-        while(t > 0)
-        {
-            int n = sc.nextInt();
-            int k = sc.nextInt();
-			char arr[] = new char[n];
-			for(int i=0; i<n; i++)
-         		arr[i] = sc.next().charAt(0);
+        int t = Integer.parseInt(sc.nextLine().trim());
 
-			Solution ob = new Solution();
-            System.out.println(ob.catchThieves(arr, n, k));
-            t--;
+        while (t-- > 0) {
+            String[] input = sc.nextLine().trim().split(" ");
+            char[] arr = new char[input.length];
+
+            for (int i = 0; i < input.length; i++) {
+                arr[i] = input[i].charAt(0);
+            }
+
+            int k = Integer.parseInt(sc.nextLine().trim());
+
+            Solution ob = new Solution();
+            System.out.println(ob.catchThieves(arr, k));
+            System.out.println("~");
         }
+
+        sc.close();
     }
-}       
+}
 // } Driver Code Ends
