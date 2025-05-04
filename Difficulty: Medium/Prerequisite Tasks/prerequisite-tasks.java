@@ -40,32 +40,38 @@ System.out.println("~");
 // } Driver Code Ends
 
 
-//User function Template for Java
+// User function Template for Java
 
 class Solution {
-    public boolean isPossible(int N,int P, int[][] prerequisites)
-    {
+    
+    
+    public boolean isPossible(int N, int P, int[][] prerequisites) {
         // Your Code goes here
         
-        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+        
+        ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
+        Queue<Integer> que = new LinkedList<>();
         
         int[] inDegree = new int[N];
         
-        boolean[] vis = new boolean[N];
-        
         for (int ind = 0; ind < N; ind++) {
-            adj.add(new ArrayList());
-            inDegree[ind] = 0;
+            graph.add(new ArrayList());
         }
         
-        for (int ind = 0; ind < P; ind++) {
-            int from = prerequisites[ind][1];
-            int to = prerequisites[ind][0];
-            adj.get(from).add(to);
-            inDegree[to] = inDegree[to] + 1;
+        int rowSize = prerequisites.length;
+        
+        for (int rowInd = 0; rowInd < rowSize; rowInd++) {
+            
+            int mainTask = prerequisites[rowInd][1];
+            int dependentTask = prerequisites[rowInd][0];
+            
+            inDegree[dependentTask] = inDegree[dependentTask] + 1;
+            
+            graph.get(mainTask).add(dependentTask);
         }
         
-        PriorityQueue<Integer> que = new PriorityQueue<>();
+        
+        
         
         for (int ind = 0; ind < N; ind++) {
             if (inDegree[ind] == 0) {
@@ -73,35 +79,32 @@ class Solution {
             }
         }
         
-        
         while (!que.isEmpty()) {
             
-            int curNode = que.remove();
+            int curTask = que.remove();
             
-            vis[curNode] = true;
-            
-            for (Integer neighbour : adj.get(curNode)) {
-                inDegree[neighbour] = inDegree[neighbour] - 1;
+            for(Integer neighbour : graph.get(curTask)) {
+                inDegree[neighbour]--;
                 if (inDegree[neighbour] == 0) {
                     que.add(neighbour);
                 }
             }
         }
         
-         for (int ind = 0; ind < N; ind++) {
+        for (int ind = 0; ind < N; ind++) {
             if (inDegree[ind] != 0) {
                 return false;
             }
         }
         
         return true;
+        
     }
     
+    
+    
+    
+    
+    
+    
 }
-
-
-
-
-
-
-
