@@ -15,10 +15,14 @@ class GfG {
                 for (int j = 0; j < n; j++) points[i][j] = sc.nextInt();
             Solution ob = new Solution();
             System.out.println(ob.minPoints(points, m, n));
-        }
+        
+System.out.println("~");
+}
     }
 }
 // } Driver Code Ends
+
+
 
 
 
