@@ -37,9 +37,7 @@ class Solution {
         
         Arrays.sort(arr, (a, b) -> a[0] - b[0]);
         int numRows = arr.length;
-        // for (int i = 0 ; i < numRows; i++) {
-        //     System.out.println(arr[i][0] + " " + arr[i][1]);
-        // }
+
         List<int[]> ans = new ArrayList<>();
         
         for (int rowInd = 0; rowInd < numRows-1; rowInd++) {
