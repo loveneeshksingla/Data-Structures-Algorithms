@@ -1,91 +1,51 @@
-//{ Driver Code Starts
-//Initial Template for Java
+// User function Template for Java
 
-import java.io.*;
-import java.util.*;
 
-class GFG {
-    public static void main(String args[]) throws IOException {
-        BufferedReader read =
-            new BufferedReader(new InputStreamReader(System.in));
-        int t = Integer.parseInt(read.readLine());
-        while (t-- > 0) {
-            int N = Integer.parseInt(read.readLine());
-            
-            String arr[] = read.readLine().split(" ");
 
-            Solution ob = new Solution();
-            String[] res = ob.findPrefixes(arr,N);
-            
-            for(int i=0; i<res.length; i++)
-                System.out.print(res[i] + " ");
-            System.out.println();
+class Trie {
+    Trie children[];
+    int numChild;
+    
+    boolean isEnd;
+    
+    public Trie() {
+        
+        children = new Trie[26];
+        for(int ind = 0; ind < 26; ind++) {
+            children[ind] = null;
         }
+        isEnd = false;
+        numChild = 0;
     }
 }
-// } Driver Code Ends
-
-
-
-
-//User function Template for Java
-
-
-class TrieNode {
-    TrieNode children[];
-    boolean isEndOfWord;
-    int numOfChild;
-    
-    TrieNode() {
-        children = new TrieNode[26];
-        for(int i = 0; i < 26; i++) {
-            children[i] = null;
-        }
-        isEndOfWord = false;
-        numOfChild = 0;
-    }
-    
-}
-
 class Solution {
-    
     static int count = 0;
     
     static String[] findPrefixes(String[] arr, int N) {
         // code here
         
-        TrieNode root = new TrieNode();
+        Trie root = new Trie();
         count = 0;
-        for(int i = 0; i < N; i++) {
-            insertWordInDictionary(root, arr[i]);
-        }
-        
-        
-        String[] ans = new String[N];
-    
-        String[] finalAns = new String[N];
-        
-        
         String[] newArr = new String[N];
         
-        
-        for(int i = 0; i < N; i++) {
-            newArr[i] = arr[i];
+        for (int ind = 0; ind < N; ind++) {
+            createDic(arr[ind], root);
+            newArr[ind] = arr[ind];
         }
         
         Arrays.sort(newArr);
-        solve(root, ans, "");
         
-        for(int i = 0; i < N; i++) {
-            String curWord = newArr[i];
-            // System.out.println(curWord + "<====");
-            int index = findIndex(arr, curWord);
-            // System.out.println(index + "<===");
-            finalAns[index] = ans[i];
+        String[] ans = new String[N];
+        String[] finalAns = new String[N];
+        
+        solve(ans, root, "");
+        
+        for (int ind = 0; ind < N; ind++) {
+            
+            int index = findIndex(arr, newArr[ind]);
+            
+            finalAns[index] = ans[ind];
         }
-        
-        
-        
         return finalAns;
         
         
@@ -100,45 +60,50 @@ class Solution {
         return -1; // Return -1 if the word is not found in the array
     }
     
-    static void solve(TrieNode root, String[] ans, String str) {
+    
+    static void solve(String[] ans, Trie curRoot, String str) {
         
-        TrieNode cur = root;
+        Trie root = curRoot;
         
-        for(int i = 0; i < 26; i++) {
+        for (int ind = 0; ind < 26; ind++) {
             
-            TrieNode curChild = cur.children[i];
-            if(curChild != null)  {
-            if(curChild.numOfChild == 1 || curChild.isEndOfWord) {
-                ans[count++] = str + (char)((int)'a'+i);
-            }else {
-                solve(curChild, ans, new String(str+""+(char)((int)'a'+i)));
-            }}
-        }
-        
-    }
-    
-    
-    static void insertWordInDictionary(TrieNode root, String word) {
-        
-        TrieNode cur = root;
-        
-        for(int i = 0; i < word.length(); i++) {
-            if(cur.children[word.charAt(i)-'a'] == null) {
-                TrieNode newNode = new TrieNode();
-                cur.children[word.charAt(i)-'a'] = newNode;
+            if (root.children[ind] != null) {
+                
+                if (root.children[ind].numChild == 1 || root.children[ind].isEnd) {
+                    ans[count++] = str + (char)((int)'a'+ind);
+                } else {
+                    solve(ans, root.children[ind], new String(str+""+(char)((int)'a'+ind)));
+                }
             }
-            cur.numOfChild++;
-            cur = cur.children[word.charAt(i)-'a'];
         }
-        
-        cur.isEndOfWord = true;
-        
     }
     
     
+    
+    
+    
+    
+    
+    
+    static void createDic(String curStr, Trie curRoot) {
+        
+        Trie root = curRoot;
+        int curStrLen = curStr.length();
+        
+        for (int ind = 0; ind < curStrLen; ind++) {
+            
+            int curCharAsccii = curStr.charAt(ind) - 'a';
+            
+            if (root.children[curCharAsccii] == null) {
+                root.children[curCharAsccii] = new Trie();
+            }
+            root = root.children[curCharAsccii];
+            root.numChild++;
+       
+            
+        }
+        root.isEnd = true;
+        
+        
+    }
 };
-
-
-
-
-
