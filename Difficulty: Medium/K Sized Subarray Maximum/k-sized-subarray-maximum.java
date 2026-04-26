@@ -18,7 +18,7 @@ class Solution {
  
         // Initialize the heap with the first k elements
         for (int i = 0; i < k; i++) {
-            heap.offer(new Pair(arr[i], i));
+            heap.add(new Pair(arr[i], i));
         }
  
         // The maximum element in the first window
@@ -41,3 +41,7 @@ class Solution {
         return ans;
     }
 }
+
+
+
+
