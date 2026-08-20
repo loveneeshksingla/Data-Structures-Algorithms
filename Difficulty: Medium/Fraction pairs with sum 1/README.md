@@ -1,0 +1,8 @@
+<h2><a href="https://www.geeksforgeeks.org/problems/fraction-pairs-with-sum-1/1">Fraction pairs with sum 1</a></h2><h3>Difficulty Level : Difficulty: Medium</h3><hr><div class="problems_problem_content__Xm_eO" style="--text-color: var(--problem-text-color);"><p><span style="font-size: 18.6667px;">Given a list of fractions, represented as two lists <strong>numerator </strong>and <strong>denominator</strong>, the task is to determine the count of pairs of fractions whose sum equals 1.</span></p>
+<p><span style="font-size: 14pt;"><strong>Example 1:</strong></span></p>
+<pre><span style="font-size: 14pt;"><strong>I</strong><strong>nput:</strong><br>numerator[] = [1, 2, 2, 8]<br>denominator[] = [2, 4, 6, 12]<span style="font-family: sans-serif; white-space: normal;"><br></span><strong>Output: </strong>2
+<strong>Explanation: </strong>Fractions 1/2 and 2/4 sum to 1. Similarly fractions 2/6 and 8/12 sum to 1. So there are 2 pairs of fractions which sum to 1.
+</span></pre>
+<pre><span style="font-size: 14pt;"><strong>Input:</strong><br>numerator[] = [3, 1, 12, 81, 2]<br>denominator[] = [9, 10, 18, 90, 5]<br><strong>Output: </strong>2
+<strong>Explanation: </strong>Fractions 3/9 and 12/18 sum to 1. Similarly fractions 1/10 and 81/90 sum to 1. So there are 2 pairs of fractions which sum to 1.</span></pre>
+<p><span style="font-size: 14pt;"><strong>Constraints:</strong><br>1 ≤ numerator.size() ≤ 10<sup>5</sup><br>1 ≤ numerator[i] ≤ denominator[i] ≤ 10<sup>9</sup></span></p></div><p><span style=font-size:18px><strong>Company Tags : </strong><br><code>Microsoft</code>&nbsp;<br><p><span style=font-size:18px><strong>Topic Tags : </strong><br><code>Mathematics</code>&nbsp;<code>Map</code>&nbsp;
